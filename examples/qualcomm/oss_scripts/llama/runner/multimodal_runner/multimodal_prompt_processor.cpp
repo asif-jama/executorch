@@ -304,5 +304,6 @@ Result<uint64_t> MultimodalPromptProcessor<T>::prefill(
 // Explicit instantiations
 template class MultimodalPromptProcessor<uint16_t>;
 template class MultimodalPromptProcessor<uint8_t>;
+template class MultimodalPromptProcessor<float>;
 
 } // namespace example

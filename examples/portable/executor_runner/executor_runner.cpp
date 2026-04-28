@@ -28,6 +28,7 @@
 #include <optional>
 
 #include <gflags/gflags.h>
+using namespace gflags;
 
 #include <executorch/extension/data_loader/buffer_data_loader.h>
 #include <executorch/extension/data_loader/file_data_loader.h>

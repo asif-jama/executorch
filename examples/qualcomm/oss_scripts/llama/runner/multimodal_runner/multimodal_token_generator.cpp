@@ -212,5 +212,6 @@ void MultimodalTokenGenerator<T>::prepare_io(
 // Explicit instantiations
 template class MultimodalTokenGenerator<uint16_t>;
 template class MultimodalTokenGenerator<uint8_t>;
+template class MultimodalTokenGenerator<float>;
 
 } // namespace example

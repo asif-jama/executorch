@@ -415,5 +415,6 @@ Result<int64_t> MultimodalLhdTokenGenerator<T>::generate(
 // Explicit instantiations
 template class MultimodalLhdTokenGenerator<uint16_t>;
 template class MultimodalLhdTokenGenerator<uint8_t>;
+template class MultimodalLhdTokenGenerator<float>;
 
 } // namespace example

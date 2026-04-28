@@ -582,5 +582,6 @@ Result<MethodMeta> QNNMultimodalRunner<T>::get_encoder_method_meta() {
 // Explicit instantiations
 template class QNNMultimodalRunner<uint16_t>;
 template class QNNMultimodalRunner<uint8_t>;
+template class MultimodalRunner<float>;
 
 } // namespace example

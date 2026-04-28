@@ -666,6 +666,28 @@ class Smollm2QuantRecipe(StaticLLMQuantRecipe):
         )
 
 
+class Smollm2_360MQuantRecipe(StaticLLMQuantRecipe):
+    default_quant_dtype = QuantDtype.use_8a8w
+
+    def __init__(self, verbose: bool = False):
+        super().__init__()
+
+        self.recipe = QuantRecipe(
+            self.default_quant_dtype,
+            False,
+            act_observer=MinMaxObserver,
+            granularity=QuantGranularity.PER_TENSOR,
+            verbose=verbose,
+        ).add_node_target(
+            {
+                torch.ops.aten.conv2d.default,
+            },
+            self.default_quant_dtype,
+            False,
+            act_observer=MinMaxObserver,
+            granularity=QuantGranularity.PER_CHANNEL,
+        )
+
 class Smollm3QuantRecipe(StaticLLMQuantRecipe):
 
     default_quant_dtype = QuantDtype.use_16a4w
@@ -716,7 +738,7 @@ class Smollm3QuantRecipe(StaticLLMQuantRecipe):
 
 
 class SmolVLMQuantRecipe(StaticLLMQuantRecipe):
-    default_quant_dtype = QuantDtype.use_16a8w
+    default_quant_dtype = QuantDtype.use_8a8w
 
     def __init__(self, verbose: bool = False):
         super().__init__()

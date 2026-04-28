@@ -84,6 +84,7 @@ from executorch.examples.qualcomm.oss_scripts.llama.static_llm_quant_recipe impo
     Qwen3_0_6BQuantRecipe,
     Qwen3_1_7BQuantRecipe,
     Smollm2QuantRecipe,
+    Smollm2_360MQuantRecipe,
     Smollm3QuantRecipe,
     SmolVLMQuantRecipe,
     StaticLLMQuantRecipe,
@@ -541,6 +542,25 @@ class Smollm2_135M(LLMModelConfig):
     r2 = False
     r3 = True
     quant_recipe = Smollm2QuantRecipe
+
+
+@register_llm_model("smollm2_360m")
+@dataclass(init=False, frozen=True)
+class Smollm2_360M(LLMModelConfig):
+    repo_id: str = "HuggingFaceTB/SmolLM2-360M-Instruct"
+    params_path: str = os.path.join(
+        BASE_DIR, "../../../models/smollm2/360M_config.json"
+    )
+    convert_weights = convert_smollm2_weights
+    transform_weight = True
+    instruct_model = True
+    num_sharding = 1
+    masked_softmax = False
+    seq_mse_candidates = 0
+    r1 = False
+    r2 = False
+    r3 = True
+    quant_recipe = Smollm2_360MQuantRecipe
 
 
 @register_llm_model("smollm3-3b")

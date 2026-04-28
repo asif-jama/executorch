@@ -372,5 +372,6 @@ Result<uint64_t> PromptProcessor<T>::prefill(
 // Explicit instantiations
 template class PromptProcessor<uint16_t>;
 template class PromptProcessor<uint8_t>;
+template class PromptProcessor<float>;
 
 } // namespace example

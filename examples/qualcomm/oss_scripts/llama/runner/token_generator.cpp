@@ -377,5 +377,6 @@ Result<int64_t> TokenGenerator<T>::generate(
 // Explicit instantiations
 template class TokenGenerator<uint16_t>;
 template class TokenGenerator<uint8_t>;
+template class TokenGenerator<float>;
 
 } // namespace example

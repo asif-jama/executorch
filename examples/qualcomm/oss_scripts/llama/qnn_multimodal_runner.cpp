@@ -27,6 +27,7 @@
 #include <gflags/gflags.h>
 
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 using executorch::aten::ScalarType;
@@ -172,10 +173,14 @@ void start_multimodal_runner(
   buf.reserve(5 * FLAGS_seq_len); // assume each token is around 5 char
   std::ofstream fout(FLAGS_output_path.c_str());
   auto callback = [&](const std::string& piece) {
+    std::cout << piece << std::flush;
     for (const char c : piece) {
       buf.push_back(c);
     }
   };
+  std::cout << std::endl;
+
+
   executorch::extension::llm::GenerationConfig config{
       true,
       false,
@@ -298,6 +303,19 @@ int main(int argc, char** argv) {
             .toScalar()
             .to<int64_t>());
   }
+  // Override: read actual k_cache dtype from model metadata.
+  // get_kv_io_bit_width() may report 8 even when KV caches are Float
+  // (e.g. when TagQuantIO pass did not run for this model).
+  {
+    auto kv_meta = module->method_meta("kv_forward");
+    if (kv_meta.ok() && kv_meta->num_inputs() > 3) {
+      auto kv0 = kv_meta->input_tensor_meta(3);
+      if (kv0.ok() &&
+          kv0->scalar_type() == executorch::aten::ScalarType::Float) {
+        kv_bitwidth = example::KvBitWidth::kWidth32;
+      }
+    }
+  }
   // Start runner with appropriate KV bitwidth
   if (kv_bitwidth == example::KvBitWidth::kWidth8) {
     start_multimodal_runner<uint8_t>(
@@ -310,6 +328,12 @@ int main(int argc, char** argv) {
         std::move(encoder),
         std::move(tok_embedding),
         std::move(text_decoder),
+        prompts);
+  } else if (kv_bitwidth == example::KvBitWidth::kWidth32) {
+    start_multimodal_runner<float>(
+        std::move(encoder),
+        std::move(module),
+        std::move(embedding),
         prompts);
   } else {
     ET_CHECK_MSG(

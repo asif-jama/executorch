@@ -371,5 +371,6 @@ void KVManager<T>::update_value(
 // Explicit instantiations
 template class KVManager<uint16_t>;
 template class KVManager<uint8_t>;
+template class KVManager<float>;
 
 } // namespace example

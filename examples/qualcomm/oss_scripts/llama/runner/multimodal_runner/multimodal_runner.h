@@ -69,6 +69,7 @@ inline Modality modality_of(const ModelVersion& model_version) {
 enum KvBitWidth {
   kWidth8 = 8,
   kWidth16 = 16,
+  kWidth32 = 32,
 };
 
 template <typename T>

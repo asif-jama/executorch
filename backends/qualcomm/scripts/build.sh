@@ -271,7 +271,7 @@ if [ "$BUILD_OE_LINUX" = true ]; then
         cd $BUILD_ROOT/third-party/flatcc && make clean
     fi
 
-    TOOLCHAN_PREFIX=$TOOLCHAIN_ROOT_HOST/usr/bin/aarch64-oe-linux/aarch64-oe-linux-
+    TOOLCHAN_PREFIX=$TOOLCHAIN_ROOT_HOST/usr/bin/aarch64-qcom-linux/aarch64-qcom-linux-
     cd $BUILD_ROOT
     cmake .. \
         -DCMAKE_INSTALL_PREFIX=$BUILD_ROOT \
